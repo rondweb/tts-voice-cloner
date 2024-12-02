@@ -33,9 +33,10 @@ async def generate_audio(text: str = Form(...), wav_file: UploadFile = File(...)
     with open(temp_wav_path, "wb") as temp_wav:
         content = await wav_file.read()
         temp_wav.write(content)
-
+    
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     # Init TTS
-    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to("cpu")  # Alterar para "cpu" se "device" não estiver definido
+    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)  # Alterar para "cpu" se "device" não estiver definido
     output_filename = f"{uuid.uuid4()}.wav" 
     output = f"/tmp/{output_filename}"
     
