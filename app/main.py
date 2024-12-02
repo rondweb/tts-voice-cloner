@@ -23,7 +23,7 @@ def clear_path(folder = '/tmp'):
 
 @app.post("/")
 async def generate_audio(text: str = Form(...), wav_file: UploadFile = File(...), language: str = Form(...)):
-    
+    os.environ["COQUI_TOS_AGREED"] = "1"
     print(datetime.now())
     
     clear_path()
