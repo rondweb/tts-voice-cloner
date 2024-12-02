@@ -1,0 +1,6 @@
+# TTS
+fastapi[standard]
+coqui-tts[server,pt]
+pydantic
+soundfile
+uvicorn
