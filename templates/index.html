@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy.ai Tools</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-hidden {
+            transform: translateX(-100%);
+        }
+        .main-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tool-card {
+            margin-bottom: 20px;
+        }
+        .tool-card .card-content {
+            display: flex;
+            align-items: center;
+        }
+        .tool-card .icon {
+            margin-right: 10px;
+        }
+        #sidebar-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        #theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        /* Tema Escuro */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .dark-mode .sidebar {
+            border-right: 1px solid #555;
+        }
+        .dark-mode .card {
+            background-color: #1f1f1f;
+            border: 1px solid #444;
+        }
+        .dark-mode .input, .dark-mode .button {
+            background-color: #333;
+            border: 1px solid #444;
+            color: #fff;
+        }
+        .dark-mode input::placeholder {
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="columns is-gapless">
+        <div class="column is-one-fifth sidebar" id="sidebar">
+            <button class="button is-light" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <aside class="menu">
+                <p class="menu-label">
+                    Galaxy.ai
+                </p>
+                <ul class="menu-list">
+                    <li><a>All Tools</a></li>
+                    <li><a>Chat with AI</a></li>
+                    <li><a>Chat Arena</a></li>
+                    <li><a>Custom GPTs</a></li>
+                    <li><a>Chat with PDF</a></li>
+                    <li><a>AI Image Generator</a></li>
+                    <li><a>AI Photo Studio</a></li>
+                    <li><a>AI Headshot Generator</a></li>
+                    <li><a>AI Music Generator</a></li>
+                    <li><a>AI Voice Cloner</a></li>
+                    <li><a>AI Video Generator</a></li>
+                    <li><a>AI Logo Generator</a></li>
+                    <li><a>AI YouTube Summarizer</a></li>
+                    <li><a>AI Translator</a></li>
+                    <li><a>AI Illustration Generator</a></li>
+                    <li><a>AI Icon Generator</a></li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column main-content centered">
+            <button class="button is-light" id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <h1 class="title">Tools</h1>
+            <p>Discover and use our powerful AI tools to enhance your workflow</p>
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input" type="text" placeholder="Search tools... (Press '/' to focus)">
+                </div>
+                <div class="control">
+                    <button class="button is-primary">Request a tool</button>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="button is-light">All</button>
+                <button class="button is-light">Text</button>
+                <button class="button is-light">Image</button>
+                <button class="button is-light">Video</button>
+                <button class="button is-light">Document</button>
+                <button class="button is-light">Audio</button>
+            </div>
+            <div class="columns is-multiline">
+                <div class="column is-one-third tool-card">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="icon">
+                                <i class="fas fa-comments"></i>
+                            </span>
+                            <div>
+                                <p class="title is-5">Chat With AI</p>
+                                <p>Engage in conversations with any AI model on any topic.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-one-third tool-card">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="icon">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <div>
+                                <p class="title is-5">Chat Arena</p>
+                                <p>Chat with multiple AI models side by side for comparative insights.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Adicione mais cartões de ferramentas conforme necessário -->
+            </div>
+        </div>
+    </div>
+    <script>
+        // Função para alternar entre os temas
+        const toggleTheme = () => {
+            document.body.classList.toggle('dark-mode');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        };
+
+        // Listener do botão de alternância
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+        // Configurar o tema com base no padrão do sistema operacional ou na preferência do usuário
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        } else if (systemPrefersDark) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Função para esconder e mostrar a barra lateral
+        const toggleSidebar = () => {
+            document.getElementById('sidebar').classList.toggle('sidebar-hidden');
+        };
+
+        // Listener do botão de esconder barra lateral
+        document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
+    </script>
+</body>
+</html>

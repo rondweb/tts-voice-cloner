@@ -3,4 +3,9 @@ fastapi[standard]
 coqui-tts[server,pt]
 pydantic
 soundfile
-uvicorn
+# python-keycloak
+# fastapi-keycloak-middleware
+# fastapi-users[sqlalchemy,oauth]
+# uvicorn[standard]
+python-keycloak
+jinja2
