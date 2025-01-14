@@ -11,6 +11,8 @@ COPY ./requirements.txt /code/requirements.txt
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 COPY ./app /code/app
+COPY ./static /code/static
+COPY ./templates /code/templates
 # Make port 8000 available to the world outside this container
 
 EXPOSE 8080

@@ -294,7 +294,7 @@
                 formData.append('wav_file', uploadedAudioBlob, 'recording.wav');
 
                 try {
-                    const response = await fetch('http://localhost:8000/generate-audio', {
+                    const response = await fetch('/generate-audio', {
                         method: 'POST',
                         body: formData
                     });
