@@ -6,18 +6,34 @@
     <title>AI Voice Cloner</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
-        body {
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body.dark-mode {
             background-color: #121212;
             color: #ffffff;
         }
-        .box {
+        body.light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .box.dark-mode {
             background-color: #1e1e1e;
             color: #ffffff;
+        }
+        .box.light-mode {
+            background-color: #ffffff;
+            color: #000000;
         }
         .input, .textarea, .button {
             background-color: #2e2e2e;
             color: #ffffff;
             border: none;
+        }
+        .input.light-mode, .textarea.light-mode, .button.light-mode {
+            background-color: #ffffff;
+            color: #000000;
         }
         .input::placeholder, .textarea::placeholder {
             color: #888888;
@@ -25,6 +41,11 @@
         .button.is-primary {
             background-color: #6200ea;
             border-color: #6200ea;
+        }
+        .button.light-mode.is-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #ffffff;
         }
         .modal {
             display: none;
@@ -57,16 +78,41 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .dark-mode .close {
+            color: #aaaaaa;
+        }
+        .light-mode .close {
+            color: #000000;
+        }
+        .dark-mode .has-text-white {
+            color: #ffffff !important;
+        }
+        .light-mode .has-text-white {
+            color: #000000 !important;
+        }
+        .dark-mode .has-text-grey-light {
+            color: #888888 !important;
+        }
+        .light-mode .has-text-grey-light {
+            color: #555555 !important;
+        }
     </style>
 </head>
-<body>
-    <section class="section">
-        <div class="container">
+<body class="dark-mode">
+    <section class="section" style="height: 100%;">
+        <div class="container" style="height: 100%;">
+            <div class="is-flex is-justify-content-flex-end">
+                <button id="darkModeToggle" class="button is-small">
+                    <span class="icon">
+                        <i class="fas fa-moon"></i>
+                    </span>
+                </button>
+            </div>
             <h1 class="title has-text-white">AI Voice Cloner</h1>
             <p class="subtitle has-text-grey-light">Clone any voice and generate natural-sounding speech</p>
-            <div class="columns is-mobile">
-                <div class="column is-half">
-                    <div class="box">
+            <div class="columns is-mobile" style="height: 100%;">
+                <div class="column is-half" style="height: 100%;">
+                    <div class="box dark-mode">
                         <h2 class="title is-4 has-text-white">Reference Audio</h2>
                         <div class="file has-name is-boxed">
                             <label class="file-label">
@@ -88,10 +134,10 @@
                         <button id="openRecordingModal" class="button is-primary is-fullwidth">Start Recording</button>
                     </div>
                 </div>
-                <div class="column is-half">
-                    <div class="box">
+                <div class="column is-half" style="height: 100%;">
+                    <div class="box dark-mode">
                         <h2 class="title is-4 has-text-white">Text to Speak</h2>
-                        <textarea class="textarea" placeholder="Enter the text you want to convert to speech..."></textarea>
+                        <textarea class="textarea dark-mode" placeholder="Enter the text you want to convert to speech..."></textarea>
                         <button class="button is-primary is-fullwidth mt-4">Generate Voice</button>
                     </div>
                 </div>
@@ -133,6 +179,7 @@
             const playRecordingBtn = document.getElementById('playRecording');
             const sendRecordingBtn = document.getElementById('sendRecording');
             const audioPlayback = document.getElementById('audioPlayback');
+            const darkModeToggle = document.getElementById('darkModeToggle');
             let mediaRecorder;
             let audioChunks = [];
             let isRecording = false;
@@ -205,6 +252,75 @@
                 });
 
                 modal.style.display = 'none';
+            };
+
+            darkModeToggle.onclick = () => {
+                const body = document.body;
+                const boxes = document.querySelectorAll('.box');
+                const textareaElements = document.querySelectorAll('.textarea');
+                const buttons = document.querySelectorAll('.button');
+                const titles = document.querySelectorAll('.title');
+                const subtitles = document.querySelectorAll('.subtitle');
+
+                if (body.classList.contains('dark-mode')) {
+                    body.classList.remove('dark-mode');
+                    body.classList.add('light-mode');
+                    darkModeToggle.innerHTML = `
+                        <span class="icon">
+                            <i class="fas fa-sun"></i>
+                        </span>
+                    `;
+                    boxes.forEach(box => {
+                        box.classList.remove('dark-mode');
+                        box.classList.add('light-mode');
+                    });
+                    textareaElements.forEach(textarea => {
+                        textarea.classList.remove('dark-mode');
+                        textarea.classList.add('light-mode');
+                    });
+                    buttons.forEach(button => {
+                        button.classList.remove('dark-mode');
+                        button.classList.add('light-mode');
+                        if (button.classList.contains('is-primary')) {
+                            button.classList.add('light-mode');
+                        }
+                    });
+                    titles.forEach(title => {
+                        title.classList.remove('has-text-white');
+                    });
+                    subtitles.forEach(subtitle => {
+                        subtitle.classList.remove('has-text-grey-light');
+                    });
+                } else {
+                    body.classList.remove('light-mode');
+                    body.classList.add('dark-mode');
+                    darkModeToggle.innerHTML = `
+                        <span class="icon">
+                            <i class="fas fa-moon"></i>
+                        </span>
+                    `;
+                    boxes.forEach(box => {
+                        box.classList.remove('light-mode');
+                        box.classList.add('dark-mode');
+                    });
+                    textareaElements.forEach(textarea => {
+                        textarea.classList.remove('light-mode');
+                        textarea.classList.add('dark-mode');
+                    });
+                    buttons.forEach(button => {
+                        button.classList.remove('light-mode');
+                        button.classList.add('dark-mode');
+                        if (button.classList.contains('is-primary')) {
+                            button.classList.remove('light-mode');
+                        }
+                    });
+                    titles.forEach(title => {
+                        title.classList.add('has-text-white');
+                    });
+                    subtitles.forEach(subtitle => {
+                        subtitle.classList.add('has-text-grey-light');
+                    });
+                }
             };
         });
     </script>
