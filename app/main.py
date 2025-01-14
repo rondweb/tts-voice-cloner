@@ -5,23 +5,29 @@ import uuid
 from datetime import datetime
 
 import torch
+import uvicorn
 from dotenv import load_dotenv
 from fastapi import (Depends, FastAPI, File, Form, HTTPException, UploadFile,
                      status)
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.security import OAuth2AuthorizationCodeBearer
+from fastapi.templating import Jinja2Templates
 from keycloak import KeycloakOpenID
+from starlette.requests import Request
 from TTS.api import TTS
 
-import uvicorn
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from starlette.requests import Request
+app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_headers=["*"],
+    allow_methods=["*"],
+)
 
 load_dotenv()
-
-app = FastAPI()
 
 # Initialize KeycloakOpenID client
 keycloak_openid = KeycloakOpenID(
@@ -37,6 +43,8 @@ oauth_scheme = OAuth2AuthorizationCodeBearer(
     tokenUrl=f"{os.getenv('KEYCLOAK_SERVER_URL')}{os.getenv('KEYCLOAK_TOKEN_URL')}",
 )
 
+templates = Jinja2Templates(directory="templates")
+
 
 def clear_path(folder="/tmp"):
     for filename in os.listdir(folder):
@@ -50,14 +58,17 @@ def clear_path(folder="/tmp"):
             print("Failed to delete %s. Reason: %s" % (file_path, e))
 
 
-templates = Jinja2Templates(directory="templates")
-
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.post("/")
+@app.get("/generate-audio")
+async def read_root(request: Request):
+    return templates.TemplateResponse("voiclon.html", {"request": request})
+
+
+@app.post("/generate-audio")
 async def generate_audio(
     text: str = Form(...),
     wav_file: UploadFile = File(...),
@@ -78,7 +89,7 @@ async def generate_audio(
     # Init TTS
     tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
     output_filename = f"{uuid.uuid4()}.wav"
-    output = f"/tmp/{output_filename}"
+    output = f"{output_filename}"
 
     # Generate audio file
     tts.tts_to_file(
@@ -89,6 +100,11 @@ async def generate_audio(
     os.remove(temp_wav_path)
 
     return FileResponse(path=output, filename=f"{output}.wav", media_type="audio/wav")
+
+
+@app.get("/pricing")
+async def read_root(request: Request):
+    return templates.TemplateResponse("pricing.html", {"request": request})
 
 
 @app.get("/login")

@@ -10,42 +10,40 @@
             height: 100%;
             margin: 0;
         }
-        body.dark-mode {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        body.light-mode {
+        body {
             background-color: #ffffff;
             color: #000000;
         }
-        .box.dark-mode {
-            background-color: #1e1e1e;
-            color: #ffffff;
-        }
-        .box.light-mode {
+        .box {
             background-color: #ffffff;
             color: #000000;
         }
         .input, .textarea, .button {
-            background-color: #2e2e2e;
-            color: #ffffff;
-            border: none;
-        }
-        .input.light-mode, .textarea.light-mode, .button.light-mode {
             background-color: #ffffff;
             color: #000000;
+            border: none;
         }
         .input::placeholder, .textarea::placeholder {
             color: #888888;
         }
         .button.is-primary {
-            background-color: #6200ea;
-            border-color: #6200ea;
-        }
-        .button.light-mode.is-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #00D1B2;
+            border-color: #00D1B2;
             color: #ffffff;
+        }
+        .button.is-small {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .button:hover {
+            background-color: #8AC2FF;
+            border-color: #8AC2FF;
+        }
+        .has-text-centered {
+            text-align: center;
+        }
+        .full-widht {
+            width: 100%;
         }
         .modal {
             display: none;
@@ -56,67 +54,64 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .modal-content {
-            background-color: #1e1e1e;
-            margin: 15% auto;
+            background-color: #ffffff;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            color: #ffffff;
-        }
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: #ffffff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .dark-mode .close {
-            color: #aaaaaa;
-        }
-        .light-mode .close {
-            color: #000000;
-        }
-        .dark-mode .has-text-white {
-            color: #ffffff !important;
-        }
-        .light-mode .has-text-white {
-            color: #000000 !important;
-        }
-        .dark-mode .has-text-grey-light {
-            color: #888888 !important;
-        }
-        .light-mode .has-text-grey-light {
-            color: #555555 !important;
+            max-width: 600px;
+            border-radius: 10px;
+            margin: 15% auto; /* Center horizontally */
         }
     </style>
 </head>
-<body class="dark-mode">
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <strong>Voiclon - AI Voice Cloner</strong>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="#">
+                    Home
+                </a>
+                <a class="navbar-item" href="#">
+                    Pricing
+                </a>
+                <a class="navbar-item" href="#">
+                    Contact
+                </a>
+            </div>
+        </div>
+    </nav>
     <section class="section" style="height: 100%;">
         <div class="container" style="height: 100%;">
-            <div class="is-flex is-justify-content-flex-end">
-                <button id="darkModeToggle" class="button is-small">
-                    <span class="icon">
-                        <i class="fas fa-moon"></i>
-                    </span>
-                </button>
-            </div>
-            <h1 class="title has-text-white">AI Voice Cloner</h1>
-            <p class="subtitle has-text-grey-light">Clone any voice and generate natural-sounding speech</p>
+            <h1 class="title">Voiclon - AI Voice Cloner</h1>
+            <p class="subtitle">Clone any voice and generate natural-sounding speech</p>
             <div class="columns is-mobile" style="height: 100%;">
                 <div class="column is-half" style="height: 100%;">
-                    <div class="box dark-mode">
-                        <h2 class="title is-4 has-text-white">Reference Audio</h2>
-                        <div class="file has-name is-boxed">
+                    <div class="box">
+                        <h2 class="title is-4">Reference Audio</h2>
+                        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                            <audio id="uploadedAudioPlayback" controls style="display:none;"></audio>
+                        </div>
+                        <br/>
+                        <div class="file has-name is-boxed is-centered">
                             <label class="file-label">
-                                <input class="file-input" type="file" name="resume">
+                                <input class="file-input" type="file" name="resume" id="audioUpload">
                                 <span class="file-cta">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
@@ -131,23 +126,34 @@
                             </label>
                         </div>
                         <div class="has-text-centered my-4">OR</div>
-                        <button id="openRecordingModal" class="button is-primary is-fullwidth">Start Recording</button>
+                        <div class="has-text-centered">
+                            <button id="openRecordingModal" class="button is-primary" style="width:100%;">Start Recording</button>
+                        </div>
                     </div>
                 </div>
                 <div class="column is-half" style="height: 100%;">
-                    <div class="box dark-mode">
-                        <h2 class="title is-4 has-text-white">Text to Speak</h2>
-                        <textarea class="textarea dark-mode" placeholder="Enter the text you want to convert to speech..."></textarea>
-                        <button class="button is-primary is-fullwidth mt-4">Generate Voice</button>
+                    <div class="box">
+                        <h2 class="title is-4">Text to Speak</h2>
+                        <textarea class="textarea" name="txt_to_speak" id="txt_to_speak" placeholder="Enter the text you want to convert to speech..."></textarea>
+                        <div class="has-text-centered mt-4">
+                            <button id="generateVoice" class="button is-primary" style="width:100%;">Generate Voice</button>
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                            <audio id="generatedAudioPlayback" controls style="display:none; width: 100%; margin-top: 20px;"></audio>
+                        </div>
+                        
+                        <a id="downloadLink" class="button is-primary" style="display:none; margin-top: 10px;">Download</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div id="recordingModal" class="modal">
+    <div id="recordingModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="title is-4 has-text-white">Record Audio</h2>
+            <span class="close">
+                <i class="fas fa-times"></i>
+            </span>
+            <h2 class="title">Record Audio</h2>
             <button id="recordingControl" class="button is-primary">
                 <span class="icon">
                     <i class="fas fa-microphone"></i>
@@ -166,7 +172,11 @@
                 </span>
                 <span>Send</span>
             </button>
-            <audio id="audioPlayback" controls style="display:none;"></audio>
+            <br/><br/>
+            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                <audio id="audioPlayback" controls style="display:none;"></audio>
+            </div>
+            
         </div>
     </div>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
@@ -178,11 +188,16 @@
             const recordingControlBtn = document.getElementById('recordingControl');
             const playRecordingBtn = document.getElementById('playRecording');
             const sendRecordingBtn = document.getElementById('sendRecording');
+            const generateVoiceBtn = document.getElementById('generateVoice');
             const audioPlayback = document.getElementById('audioPlayback');
-            const darkModeToggle = document.getElementById('darkModeToggle');
+            const uploadedAudioPlayback = document.getElementById('uploadedAudioPlayback');
+            const generatedAudioPlayback = document.getElementById('generatedAudioPlayback');
+            const downloadLink = document.getElementById('downloadLink');
+            const audioUpload = document.getElementById('audioUpload');
             let mediaRecorder;
             let audioChunks = [];
             let isRecording = false;
+            let uploadedAudioBlob = null;
 
             openModalBtn.onclick = () => {
                 modal.style.display = 'block';
@@ -216,6 +231,9 @@
                         audioPlayback.style.display = 'block';
                         playRecordingBtn.disabled = false;
                         sendRecordingBtn.disabled = false;
+                        uploadedAudioBlob = audioBlob;
+                        uploadedAudioPlayback.src = audioUrl;
+                        uploadedAudioPlayback.style.display = 'block';
                     };
 
                     recordingControlBtn.innerHTML = `
@@ -241,86 +259,67 @@
                 audioPlayback.play();
             };
 
-            sendRecordingBtn.onclick = async () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const formData = new FormData();
-                formData.append('audio', audioBlob, 'recording.wav');
-
-                await fetch('http://leaftix.com', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                modal.style.display = 'none';
+            audioUpload.onchange = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const audioUrl = URL.createObjectURL(file);
+                    uploadedAudioPlayback.src = audioUrl;
+                    uploadedAudioPlayback.style.display = 'block';
+                    uploadedAudioBlob = file;
+                }
             };
 
-            darkModeToggle.onclick = () => {
-                const body = document.body;
-                const boxes = document.querySelectorAll('.box');
-                const textareaElements = document.querySelectorAll('.textarea');
-                const buttons = document.querySelectorAll('.button');
-                const titles = document.querySelectorAll('.title');
-                const subtitles = document.querySelectorAll('.subtitle');
-
-                if (body.classList.contains('dark-mode')) {
-                    body.classList.remove('dark-mode');
-                    body.classList.add('light-mode');
-                    darkModeToggle.innerHTML = `
-                        <span class="icon">
-                            <i class="fas fa-sun"></i>
-                        </span>
-                    `;
-                    boxes.forEach(box => {
-                        box.classList.remove('dark-mode');
-                        box.classList.add('light-mode');
-                    });
-                    textareaElements.forEach(textarea => {
-                        textarea.classList.remove('dark-mode');
-                        textarea.classList.add('light-mode');
-                    });
-                    buttons.forEach(button => {
-                        button.classList.remove('dark-mode');
-                        button.classList.add('light-mode');
-                        if (button.classList.contains('is-primary')) {
-                            button.classList.add('light-mode');
-                        }
-                    });
-                    titles.forEach(title => {
-                        title.classList.remove('has-text-white');
-                    });
-                    subtitles.forEach(subtitle => {
-                        subtitle.classList.remove('has-text-grey-light');
-                    });
-                } else {
-                    body.classList.remove('light-mode');
-                    body.classList.add('dark-mode');
-                    darkModeToggle.innerHTML = `
-                        <span class="icon">
-                            <i class="fas fa-moon"></i>
-                        </span>
-                    `;
-                    boxes.forEach(box => {
-                        box.classList.remove('light-mode');
-                        box.classList.add('dark-mode');
-                    });
-                    textareaElements.forEach(textarea => {
-                        textarea.classList.remove('light-mode');
-                        textarea.classList.add('dark-mode');
-                    });
-                    buttons.forEach(button => {
-                        button.classList.remove('light-mode');
-                        button.classList.add('dark-mode');
-                        if (button.classList.contains('is-primary')) {
-                            button.classList.remove('light-mode');
-                        }
-                    });
-                    titles.forEach(title => {
-                        title.classList.add('has-text-white');
-                    });
-                    subtitles.forEach(subtitle => {
-                        subtitle.classList.add('has-text-grey-light');
-                    });
+            generateVoiceBtn.onclick = async () => {
+                const textToSpeak = document.getElementById('txt_to_speak').value;
+                if (!textToSpeak) {
+                    alert('Please enter text to convert to speech.');
+                    return;
                 }
+                if (!uploadedAudioBlob) {
+                    alert('Please upload or record an audio file.');
+                    return;
+                }
+
+                generateVoiceBtn.innerHTML = `
+                    <span class="icon">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                    <span>Loading...</span>
+                `;
+                generateVoiceBtn.disabled = true;
+
+                const formData = new FormData();
+                formData.append('text', textToSpeak);
+                formData.append('language', 'en');
+                formData.append('wav_file', uploadedAudioBlob, 'recording.wav');
+
+                try {
+                    const response = await fetch('http://localhost:8000/generate-audio', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Network response was not ok');
+                    }
+
+                    const blob = await response.blob();
+                    const audioUrl = URL.createObjectURL(blob);
+                    generatedAudioPlayback.src = audioUrl;
+                    generatedAudioPlayback.style.display = 'block';
+                    downloadLink.href = audioUrl;
+                    downloadLink.download = 'generated-voice.mp3';
+                    downloadLink.style.display = 'block';
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`An error occurred while generating the voice: ${error.message}`);
+                } finally {
+                    generateVoiceBtn.innerHTML = 'Generate Voice';
+                    generateVoiceBtn.disabled = false;
+                }
+
+                modal.style.display = 'none';
             };
         });
     </script>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"
+    />
+    <style>
+      body {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      .toggle-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+      }
+      .pricing-plan {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        transition: transform 0.3s;
+      }
+      .pricing-plan:hover {
+        transform: scale(1.05);
+      }
+      .pricing-plan .title {
+        margin-bottom: 1.5rem;
+      }
+      .pricing-plan .subtitle {
+        margin-bottom: 1rem;
+      }
+      .pricing-plan ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+      }
+      .pricing-plan ul li {
+        margin-bottom: 0.5rem;
+      }
+      .section {
+        padding: 50px 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+      .section.hidden {
+        display: none;
+      }
+      .section.active {
+        display: block;
+        opacity: 1;
+      }
+      .section.inactive {
+        opacity: 0;
+      }
+      .navbar {
+        background-color: #00d1b2;
+      }
+      .navbar-item {
+        color: #ffffff;
+      }
+      .box {
+        background-color: #ffffff;
+        color: #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+          <img
+            src="https://github.com/rondweb/cdn-leaftix/blob/main/images/voiclon_logo_black_flat.png?raw=true"
+            alt="Voiclon Logo"
+          />
+          <!-- <strong>  - AI Voice Cloner</strong> -->
+        </a>
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a
+            class="navbar-item"
+            href="#introduction"
+            onclick="showSection('introduction')"
+          >
+            Home
+          </a>
+          <a
+            class="navbar-item"
+            href="#pricing"
+            onclick="showSection('pricing')"
+          >
+            Pricing
+          </a>
+          <a
+            class="navbar-item"
+            href="#contact"
+            onclick="showSection('contact')"
+          >
+            Contact
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="toggle-icon" onclick="toggleMode()">
+        <i class="fas fa-adjust"></i>
+      </div>
+
+      <!-- Introduction Section -->
+      <section id="introduction" class="section active">
+        <h1 class="title is-1 has-text-centered">
+          <img
+            src="https://raw.githubusercontent.com/rondweb/cdn-leaftix/refs/heads/main/images/voiclon_logo_white_vec.svg"
+          />
+        </h1>
+        <p class="subtitle is-3 has-text-centered">
+          The ultimate AI Voice Cloning solution for all your needs.
+        </p>
+        <div class="content is-large">
+          <p>
+            Voiclon offers state-of-the-art voice cloning technology that allows
+            you to create realistic digital replicas of any voice. Whether you
+            are an individual creator or a large enterprise, our platform
+            provides the tools you need to generate natural-sounding speech in
+            multiple languages. With Voiclon, you can:
+          </p>
+          <ul>
+            <li>Generate speech in 32 languages with your own voice</li>
+            <li>Translate content with automatic dubbing</li>
+            <li>Access our API for seamless integration</li>
+          </ul>
+          <div class="has-text-centered">
+            <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
+            <stripe-buy-button
+              buy-button-id="buy_btn_1QhCt5DTo4z1sAuIpa4bmRFJ"
+              publishable-key="pk_live_51PlhJIDTo4z1sAuIMbuPdJnZRVpp5fk38rTtDQa9t1sGye62QBll2YlZ5Xlc9Bm1xyH85rhyVZy2U3Abd3gN7XDa00KusthBP9"
+            >
+            </stripe-buy-button>
+            <!-- <a href="https://buy.stripe.com/28o8yY1qo78W6oE6os" target="_blank" class="button is-primary is-large" style="background-color:red">GET STARTED FOR FREE</a> -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Section -->
+      <section id="pricing" class="section hidden">
+        <h1 class="title has-text-centered">Pricing</h1>
+        <p class="subtitle has-text-centered">
+          From individual creators to the biggest enterprises, we have a plan
+          for you.
+        </p>
+        <div class="columns is-multiline">
+          <div class="column is-one-quarter">
+            <div class="box pricing-plan">
+              <h2 class="title is-4">Starter</h2>
+              <p class="subtitle">$5 /month</p>
+              <button class="button is-primary is-fullwidth">
+                Get Started
+              </button>
+              <p class="mt-4"></p>
+              <ul>
+                <li>
+                  45 minutes of ultra-high quality text to speech per month
+                </li>
+                <li>Clone your voice with as little as 1 minute of audio</li>
+                <li>API access</li>
+              </ul>
+            </div>
+          </div>
+          <div class="column is-one-quarter">
+            <div class="box pricing-plan">
+              <h2 class="title is-4">Creator</h2>
+              <p class="subtitle">$22 /month</p>
+              <button class="button is-primary is-fullwidth">
+                Get Started
+              </button>
+              <p class="mt-4"></p>
+              <ul>
+                <li>Everything in Starter, plus:</li>
+                <li>
+                  100 minutes of ultra-high quality text to speech per month
+                </li>
+                <li>
+                  Professional voice cloning to create the most realistic
+                  digital replica of your voice
+                </li>
+                <li>Higher quality audio - 192 kbps</li>
+              </ul>
+            </div>
+          </div>
+          <div class="column is-one-quarter">
+            <div class="box pricing-plan">
+              <h2 class="title is-4">Pro</h2>
+              <p class="subtitle">$99 /month</p>
+              <button class="button is-primary is-fullwidth">
+                Get Started
+              </button>
+              <p class="mt-4"></p>
+              <ul>
+                <li>Everything in Creator, plus:</li>
+                <li>
+                  500 minutes of ultra-high quality text to speech per month
+                </li>
+                <li>Broadcast quality audio - 320 kbps</li>
+                <li>Unlimited voice cloning</li>
+                <li>Dedicated account manager</li>
+              </ul>
+            </div>
+          </div>
+          <div class="column is-one-quarter">
+            <div class="box pricing-plan">
+              <h2 class="title is-4">Enterprise</h2>
+              <p class="subtitle">Custom Pricing</p>
+              <button class="button is-primary is-fullwidth">
+                Get Started
+              </button>
+              <p class="mt-4"></p>
+              <ul>
+                <li>Unlimited ultra-high quality text to speech per month</li>
+                <li>Generate speech in multiple languages</li>
+                <li>API access</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section hidden">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf1A9zwgupdD_X8IUeqkWnZP5Ndbjvg50YE7-BttvFnIOxQrQ/viewform?embedded=true" width="640" height="1500" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+      </section>
+    </div>
+
+    <script>
+      function toggleMode() {
+        const body = document.body;
+        if (body.classList.contains("light-mode")) {
+          body.classList.replace("light-mode", "dark-mode");
+        } else {
+          body.classList.replace("dark-mode", "light-mode");
+        }
+      }
+
+      function showSection(sectionId) {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          if (section.id === sectionId) {
+            section.classList.remove("hidden");
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+            section.classList.add("hidden");
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const dropdown = document.getElementById("modeDropdown");
+        const dropdownTrigger = dropdown.querySelector(".dropdown-trigger");
+        dropdownTrigger.onclick = () => {
+          dropdown.classList.toggle("is-active");
+        };
+      });
+    </script>
+  </body>
+</html>
